@@ -3,14 +3,19 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 /**
  * Created by mikhail_z on 9/23/17.
  */
 public class EsquireDayPhotoBot extends TelegramLongPollingBot {
 
+    Properties properties = new Properties();
 
     public void onUpdateReceived(Update update) {
 
@@ -41,7 +46,13 @@ public class EsquireDayPhotoBot extends TelegramLongPollingBot {
 
     public String getBotToken() {
         // Return bot token from BotFather
-        return "425218487:AAF5VqmTEDuJ1O27bfY9yaCGskSdQOWhzSA";
+        try {
+            properties.load(new InputStreamReader(new FileInputStream("src/main/resources/configs.properties")));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties.getProperty("API.TOKEN");
     }
 
 
